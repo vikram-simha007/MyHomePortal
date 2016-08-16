@@ -1,0 +1,200 @@
+﻿@charset 'utf-8';
+/*************************************************
+*
+*	project:  	liteTabs - Lightweight jQuery tabs plugin
+*	author:   	Nicola Hibbert
+*	url:	  	http://nicolahibbert.com/lightweight-jquery-tab-plugin/
+*	demo:	  	http://www.nicolahibbert.com/demo/liteTabs/
+*
+/*************************************************/
+/****************************************** Core */
+.liteTabs {
+    position: relative;
+    text-align: center;
+    margin: 2% 2% 0 2%;
+    padding-top: 10px;
+    overflow: hidden;
+    font-size: 14px;
+    font-family: Calibri, Verdana, Geneva, sans-serif;
+    font-weight: normal;
+    color: #535353;
+    background-color: #f8f8f8;
+    height: 30px;
+    border-left: 1px solid #e9e9e9;
+    border-right: 1px solid #e9e9e9;
+    border-top: 1px solid #e9e9e9;
+    border-bottom: 3px solid #e9e9e9;
+}
+
+#divContainer {
+    display: table;
+    margin: 0 2% 2% 2%;
+    padding: 0% 2% 2% 2%;
+    width: 92%;
+}
+
+.liteTabs ul {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+.liteTabs li {
+    float: left;
+    width: 24.5%;
+    margin-left: auto;
+    margin-right: auto;
+    list-style-type: none;
+    text-transform: uppercase;
+    border-right: 1px solid #e9e9e9;
+    cursor: pointer;
+}
+
+    .liteTabs li:last-child {
+        border-right: none;
+    }
+
+    .liteTabs li a {
+        display: block;
+        text-decoration: none;
+        outline: 0;
+        padding: 6px 12px;
+        margin-right: 2px;
+        color: #FFF;
+        background: #01579e;
+    }
+
+.liteTabs a:hover {
+    background: #01579e;
+}
+
+.liteTabs li span {
+    display: block;
+    text-decoration: none;
+    outline: 0;
+}
+
+.liteTabs span:hover {
+    color: #e6e6e6;
+    /*font-weight:bold;*/
+}
+
+.liteTabs span:focus {
+    /* text-decoration: underline;*/
+}
+
+.liteTabs span.selected, .liteTabs span.selected:hover {
+    color: #000;
+    font-weight: bolder;
+}
+
+.liteTabs span.arrow {
+    display: none;
+}
+
+.liteTabs span.selected > .arrow {
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid #6BA6E2;
+    display: block;
+    position: absolute;
+    padding-top: 6px;
+    bottom: 0;
+    margin-left: 15%;
+}
+
+
+
+.liteTabs a:hover {
+    background: #01579e;
+}
+
+.liteTabs a:focus {
+    /* text-decoration: underline;*/
+}
+
+.liteTabs a.selected, .liteTabs a.selected:hover {
+    background: #656565;
+}
+
+
+
+.liteTabs div {
+    float: left;
+    width: 100%;
+    margin: 2px;
+    background-color: green;
+}
+
+    .liteTabs div.selected {
+        position: static !important;
+    }
+
+/*************************************** Rounded */
+.rounded ul {
+    -moz-border-radius: 8px 8px 0 0;
+    border-radius: 8px 8px 0 0;
+}
+
+.rounded li a {
+    -moz-border-radius: 8px 8px 0 0;
+    border-radius: 8px 8px 0 0;
+}
+
+.rounded div {
+    -moz-border-radius: 0 8px 8px 8px;
+    border-radius: 0 8px 8px 8px;
+}
+
+/**************************************** Borders */
+.borders ul {
+    position: relative;
+    top: 1px;
+}
+
+.borders li a {
+    border: 1px solid #999;
+    border-bottom: 0;
+}
+
+.borders div {
+    border: 1px solid #999;
+}
+
+/****************************************** Boxed */
+.boxed {
+    padding: 2px;
+    background: #ddd;
+    border: 1px solid #666;
+}
+
+    .boxed ul {
+        background: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgb(204,204,204)), color-stop(1, rgb(238,238,238)));
+        background: -moz-linear-gradient(center bottom, rgb(204,204,204) 0%, rgb(238,238,238) 100%);
+    }
+
+#divTab {
+    padding: 0 2% 2% 2%;
+}
+
+    #divTab ol {
+        width: 100%;
+        display: inline-block;
+    }
+
+        #divTab ol li {
+            width: 100%;
+            margin: 0px !important;
+            padding: 1px;
+            display: inline-block;
+        }
+
+            #divTab ol li:nth-child(odd) {
+                width: 100%;
+                margin-top: 10px !important;
+                padding: 1px;
+                display: inline-block;
+            }

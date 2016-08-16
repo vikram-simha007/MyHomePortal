@@ -335,7 +335,7 @@
                                 </span>
                             </div>
                             <div style="float: right">
-                                    <img onerror="this.onerror=null; this.src="images/Residents_icon.png" style="border-radius:50px;border:1px white solid"  width="37" height="37" alt="" />
+                                    <img onerror="this.onerror=null; this.src='../Content/Images/Menu Icons/Residents_icon.png'" style="border-radius:50px;border:1px white solid" src=".." width="37" height="37" alt="" />
                             </div>
                         </div>
 
@@ -576,344 +576,153 @@
         <div class="Rightwizards">
 
             
-
-<div class="Rightwizards" >
-
-
-
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.8.2.js"></script>
-<link href="CSS/AccordianStyle.css" rel="stylesheet" />
-
-
-
-
-    <div class="tabs" style="width:98.2%">
-        <div class="accordion-container">
-            <a href="#" class="accordion-toggle open" style="border-top-left-radius: 5px; border-top-right-radius: 5px;">Welcome <span class="toggle-icon"><i class="fa fa-minus-circle"></i></span></a>
-            <div class="accordion-content" style="background-color:#FFF;" id="div_General">
-                    <div style="width: 100%; display: block" class="Label tab">                        
-                    <img style="width:100%;height:200px;" src="images/Logo.png" alt="" />
-                    </div>
-
-            </div>
+    <link href="CSS/Album_Style.css" rel="stylesheet" />
+     
+    <div class="Forum_div" style="float: left;">
+        <div class="Heading_text">
+            <img src="images/Photogallery.png" />&nbsp;Photo Gallery&nbsp;&nbsp;<label style="display: none"></label>
         </div>
+        <div class="Gap"></div>
+        <div class="Label">
+            Create photo albums and share memorable moments with your neighbours. You can share your album with everyone or only 
+            with a group within your apartment complex.
+        </div>
+        <div class="Gap"></div>
+        <div class="divider"></div>
+        <div class="Gap"></div>
+        <table style="width: 100%;">
+            <tr>
+                <td style="width: 90%;">
+                    <input type="text" id="txtSearch" style="width: 98%;" class="Text_box" placeholder="Search by Album" />
+                </td>
+                <td style="width: 5%; text-align: right;">
+                    <button type="button" class="Button" id="Search" value="Content">Search</button>
+                </td>
+                <td style="width: 5%; text-align: right;">
+                    <a href="/PhotoGallery/AddPhotos"  style="text-decoration:none" >
+                        <input type="button" id="AddPhotos" class="Button" value="Create" />
+                    </a>
+                </td>
+            </tr>
+        </table>
+        <div class="divider"></div>
+        <div id="divAlbumsGrid"></div>
+        <div id="divPaging"></div>
     </div>
-
-
-
-
-
+<div id="dvLoading" class="dvLoading"></div>
 <script type="text/javascript">
-    
-
     $(document).ready(function () {
+        debugger;
+        loadAlbumsGrid();
+        if($('.savedResult').length > 0) {
+            generate('success', 'clientside', $('.savedResult').text(), 'top');
+            loadAlbumsGrid();
+        }
+    });
 
-        setTimeout(function () {
-            $('.accordion-toggle').click();
-            $("#div_General").fadeOut(1500);
-        }, 15000) //Hiding div after 15 seconds
-        $('.accordion-toggle').on('click', function (event) {                        
-            event.preventDefault();
-            // create accordion variables
-            var accordion = $(this);
-            var accordionContent = accordion.next('.accordion-content');
-            var accordionToggleIcon = $(this).children('.toggle-icon');
-            // toggle accordion link open class
-            accordion.toggleClass("open");
-            // toggle accordion content
-            accordionContent.slideToggle(150);
-            // change plus/minus icon
-            if (accordion.hasClass("open")) {
-                accordionToggleIcon.html("<i class='fa fa-minus-circle'></i>");
-            } else {
-                accordionToggleIcon.html("<i class='fa fa-plus-circle'></i>");
+    $('#txtSearch').live('keydown', function (e) {
+        debugger;
+        if (e.keyCode == 13) {
+            debugger;
+            loadAlbumsGrid();
+        }
+    });
+    $('#Search').click(function () {
+        loadAlbumsGrid();
+    });
+
+    $("#AddPhotos").click(function () {
+        $('#dvLoading').fadeOut(200);
+        History.pushState(null, null, '/PhotoGallery/AddPhotos');
+    });
+
+
+
+    $('.saveChanges').live('click', function () {
+        //debugger;
+        var shareTo = $(this).parent('.AlbumLabel').find('.List_menu').val();
+        var galleryId = $(this).attr('data-ID')
+        var urlShare = '/PhotoGallery/ChangeSharing';
+
+        var jsondata = JSON.stringify({ 'ShareTo': shareTo, 'GalleryId': galleryId });
+        $.ajax({
+            url: urlShare,
+            dataType: 'JSON',
+            data: jsondata,
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            success: function () {
+                loadAlbumsGrid();
+            },
+            error: function () {
             }
         });
     });
 
-</script>
-
-
-
-
-
-
-<link href="CSS/Grid.css" rel="stylesheet" />
-
-<div class="divFacility Label" style="width: 98%; height: 185px;">
-    <div class="divFacilityHeader">
-        <span class="ViewFacility" data-id="1">Notices</span>
-        <div class="DashBoardNotice">
-            <button type="button" class="Button_dashboard" id="btnViewAll">View All</button>
-            <button type="button" class="Button_dashboard" id="btnCreateNotice">Create</button>
-        </div>
-    </div>
-
-        <div class="DashboardItemBodyEndLine">
-            <div class="DashboardItemBodyLink" title="Water Meter Sub Committee Notification." data-ID="1293" style="float: left">Water Meter Sub Committee Notification.            </div>
-            <div style="float: right; margin-right: 3%">25-Apr-2016 10:19 PM </div>
-        </div>
-        <div class="DashboardItemBodyEndLine">
-            <div class="DashboardItemBodyLink" title="Inviting nominations for members of Water Meter Sub Committee." data-ID="1291" style="float: left">                <span>Inviting nominations for members of Water Meter Sub Committe.. </span>
-            </div>
-            <div style="float: right; margin-right: 3%">10-Apr-2016 10:22 PM </div>
-        </div>
-        <div class="DashboardItemBodyEndLine">
-            <div class="DashboardItemBodyLink" title="Minutes of Meeting the Extraordinary General Body Meeting conducted on 20-Mar-2016." data-ID="1290" style="float: left">                <span>Minutes of Meeting the Extraordinary General Body Meeting co.. </span>
-            </div>
-            <div style="float: right; margin-right: 3%">10-Apr-2016 10:21 PM </div>
-        </div>
-        <div class="DashboardItemBodyEndLine">
-            <div class="DashboardItemBodyLink" title="Water Tanker Charges for month of Mar-16 are 1.08 rupees per sq.ft." data-ID="1285" style="float: left">                <span>Water Tanker Charges for month of Mar-16 are 1.08 rupees per.. </span>
-            </div>
-            <div style="float: right; margin-right: 3%">29-Mar-2016 10:20 PM </div>
-        </div>
-        <div class="DashboardItemBodyEndLine">
-            <div class="DashboardItemBodyLink" title="Detailed Agenda for EGM scheduled on 20-Mar-16 @ 10 AM Venue: Reliance Paradise Party Hall" data-ID="1281" style="float: left">                <span>Detailed Agenda for EGM scheduled on 20-Mar-16 @ 10 AM Venue.. </span>
-            </div>
-            <div style="float: right; margin-right: 3%">17-Mar-2016 12:07 AM </div>
-        </div>
-
-</div>
-
-<script type="text/javascript">
-    $('#btnViewAll').on("click", function () {
-        location.href = '/Notices/Index';
+    $('#btnDelete').live('click', function () {
+        var strGalleryIds = [];
+        $('.Album_Block input:checkbox[name=ChkbxId]:checked').each(function () {
+            strGalleryIds.push($(this).val());
+        });
+        if (strGalleryIds.length == 0) {
+            generate('error', 'client', 'Please select Photo(s) to delete.', 'top');
+            return false;
+        }
+        DeletePhoto(strGalleryIds);
     });
-    $('#btnCreateNotice').on("click", function () {
-        location.href = '/Notices/CreateNotices?Type=Create';
-    });
+    function DeletePhoto(strGalleryIds) {
+        if (strGalleryIds.length == 0) {
+            return false;
+        }
+        var deletePhotos = '/PhotoGallery/DeletePhotosByGalleryId';
+        apprise('Are you sure you want to delete?', { 'verify': true }, function (r) {
+            if (r) {
+                //debugger;
+                var jsondata = JSON.stringify({ strGalleryIds: strGalleryIds.join() });
+                $.ajax({
+                    url: deletePhotos,
+                    dataType: 'JSON',
+                    data: jsondata,
+                    type: 'POST',
+                    contentType: "application/json; charset=utf-8",
+                    success: function () {
+                        loadAlbumsGrid();
+                        generate('success', 'client', 'Gallery(s) deleted successfully', 'top');
+                    },
+                    error: function () {
+                    }
+                });
+            }
+        });
+    }
 
-    $('.DashboardItemBodyLink').on("click", function () {
-        var iNoticeID = $(this).attr('data-ID');
-       var url= '/Notices/ViewNotice';
-
-        location.href = url + "?iNoticeID=" + iNoticeID;
-    });
-
-</script>
-
-
-
-<link href="CSS/Grid.css" rel="stylesheet" />
-
-
-<div class="divFacility Label" style="width:98% ;height:185px;">
-        <div class="divFacilityHeader">
-            <span class="ViewFacility" data-id="1" > Events</span>   
-             <div class="DashBoardNotice">
-              <button type="button" class="Button_dashboard" id="btnViewAllEvents">View All</button>
-              <button type="button" class="Button_dashboard" id="btnCreate" >Create</button>
-            </div>
-        </div>
-
-          <div class="DashboardItemBodyEndLine">
-              
-                 <div class="DashboardItemBodyLink Events" title="Kids Program @ RP on 15th August starting at 02:30 PM" data-ID="2223" style="float: left">Kids Program @ RP on 15th August starting at 02:30 PM            </div>
-              <div style="float:right;margin-right:3%"> 15-Aug-2016 01:35 PM </div>
-        
-           </div>
-          <div class="DashboardItemBodyEndLine">
-              
-                 <div class="DashboardItemBodyLink Events" title="Meet Election officer at 07:30PM today at Party Hall on Apts election process.Inviting all owners." data-ID="2167" style="float: left">                <span>Meet Election officer at 07:30PM today at Party Hall on Apts.. </span>
-            </div>
-              <div style="float:right;margin-right:3%"> 13-Jul-2016 09:38 AM </div>
-        
-           </div>
-          <div class="DashboardItemBodyEndLine">
-              
-                 <div class="DashboardItemBodyLink Events" title="Polio Vaccination is giving in Area Hospital Kondapur, Near Chirec school from 9 AM to 1 PM " data-ID="2101" style="float: left">                <span>Polio Vaccination is giving in Area Hospital Kondapur, Near .. </span>
-            </div>
-              <div style="float:right;margin-right:3%"> 21-Jun-2016 10:13 PM </div>
-        
-           </div>
-          <div class="DashboardItemBodyEndLine">
-              
-                 <div class="DashboardItemBodyLink Events" title="Intercom issues have been resolved.Please reach out maintenance team in case of any issues." data-ID="2068" style="float: left">                <span>Intercom issues have been resolved.Please reach out maintena.. </span>
-            </div>
-              <div style="float:right;margin-right:3%"> 14-Jun-2016 10:12 PM </div>
-        
-           </div>
-          <div class="DashboardItemBodyEndLine">
-              
-                 <div class="DashboardItemBodyLink Events" title="AGM and Elections have been postponed. New dates will be announced shortly." data-ID="2065" style="float: left">                <span>AGM and Elections have been postponed. New dates will be ann.. </span>
-            </div>
-              <div style="float:right;margin-right:3%"> 13-Jun-2016 10:26 PM </div>
-        
-           </div>
- 
-    </div>
-
-<script type="text/javascript">
-    $('#btnViewAllEvents').on("click", function ()
-    {
-        location.href = '/Events/Index';
-    });
-    $('#btnCreate').on("click", function () {
-        location.href = '/Events/CreateEvent';
-    });
-
-    $('.Events').click(function () {
+    function loadAlbumsGrid() {
         debugger;
-        var eventId = $(this).attr('data-ID')
-        var url = '/Events/ViewEvent';
-        window.location.href = url + "?EventId=" + eventId;
-    });
+        $('#dvLoading').fadeIn(200);
+        var strtext = $('#txtSearch').val();
+        var urlGetAlbums = "/PhotoGallery/GridAlbums"
+        //$('#AlbumsGrid').load(url, { SearchText: strtext });
+        var values = [];
+        values.push(strtext);
+        $('#divAlbumsGrid').load(urlGetAlbums +"?MinRows=1&MaxRows=" + 9 + '&SearchText=' + encodeURIComponent(JSON.stringify(values)), function (response, status) {
+            if (status == 'success') {
+                var rowsCount;
+                if ($('#RowsCount').val() == undefined)
+                    rowsCount = 0;
+                else
+                    rowsCount = $('#RowsCount').val();
+                BuildNavigation('divPaging', 9, rowsCount, 'divAlbumsGrid', urlGetAlbums, 'Abc', JSON.stringify(values));
+                if (rowsCount == 0)
+                    $('#divPaging').hide();
+                else
+                    $('#divPaging').show();
+            }
+        });
+        $('#dvLoading').fadeOut(200);
+    }
+
 
 </script>
-
-
-<link href="CSS/Grid.css" rel="stylesheet" />
-
-<div class="divFacility Label" style="width:98% ;height:185px;">
-        <div class="divFacilityHeader">
-            <span class="ViewFacility" data-id="1" >Tickets</span>   
-             <div class="DashBoardNotice">
-              <button type="button" class="Button_dashboard" id="btnViewAllTickets" >View All</button>
-              <button type="button" class="Button_dashboard" id="btnForum" >Create</button>
-            </div>
-        </div>
-
-          <div style="padding:1%;color:#1A84B6;">
-              <div style="float:left"class="DashboardItemBodyLink Tickets" data-DId ="518" data-TicketID ="3" >Saphire-303 </div>
-              <div style="float:right;margin-right:3%">Sashi  Mundhra</div>
-        
-          </div>
-            <div title="Mobile No" class="DashboardItemBodyEndLine">  Mobile No</div>
-          <div style="padding:1%;color:#1A84B6;">
-              <div style="float:left"class="DashboardItemBodyLink Tickets" data-DId ="442" data-TicketID ="2" >Diamond-202 </div>
-              <div style="float:right;margin-right:3%">Ajay Bansal  </div>
-        
-          </div>
-            <div title="Anti-Social elements in the Society" class="DashboardItemBodyEndLine">  Anti-Social elements in the Society</div>
- 
-    </div>
-
-<script type="text/javascript">
-    $('#btnViewAllTickets').on("click", function ()
-    {
-        location.href = '/HelpDesk/Index';
-    });
-    $('#btnForum').on("click", function () {
-        location.href = '/HelpDesk/Create';
-    });
-
-    $('.Tickets').click(function () {
-        debugger;
-        var query = '?DId=' + $($(this)).attr("data-DId") + '&TicketID=' + $($(this)).attr("data-TicketID");
-        var url = '/Helpdesk/TicketDetails' + query;
-                window.location.href = url;
-      });
-</script>
-
-
-
-
-
-<link href="CSS/Grid.css" rel="stylesheet" />
-
-<div class="divFacility Label" style="width:98% ;height:185px;">
-        <div class="divFacilityHeader">
-            <span class="ViewFacility" data-id="1" >Photo Gallery</span>   
-             <div class="DashBoardNotice">
-              <button type="button" class="Button_dashboard" id="btnViewAllGallery" >View All</button>
-              <button type="button" class="Button_dashboard" id="btnGallery" >Create</button>
-            </div>
-        </div>
-
-        <div class="DashboardItemBodyEndLine">
-              <div style="float:left" title="Ganesh Idol Installation"  class="DashboardItemBodyLink Gallery" data-ID="60">Ganesh Idol Installation </div>
-
-            </div>
- 
-    </div>
-
-<script type="text/javascript">
-    $('#btnViewAllGallery').on("click", function ()
-    {
-        location.href = '/PhotoGallery/PhotoGallery';
-    });
-    $('#btnGallery').on("click", function () {
-        location.href = '/PhotoGallery/AddPhotos';
-    });
-
-    $('.Gallery').click(function () {
-        debugger;
-        var GalleryId = $(this).attr('data-ID');
-        location.href = '/PhotoGallery/ViewPhotos' + "?Id=" + GalleryId
-          });
-</script>
-
-
-
-<link href="CSS/Grid.css" rel="stylesheet" />
-
-<div class="divFacility Label" style="width:98% ;height:185px;">
-        <div class="divFacilityHeader">
-            <span class="ViewFacility" data-id="1" > Forum</span>   
-             <div class="DashBoardNotice">
-              <button type="button" class="Button_dashboard" id="btnViewAllForum">View All</button>
-              <button type="button" class="Button_dashboard" id="btnCreateForum" >Create</button>
-            </div>
-        </div>
-
-              <div class="DashboardItemBodyEndLine">
-                  <div style="float:left;width:50%" title="2BHK flat for Rental in Reliance Paradise" class="DashboardItemBodyLink ForumDetails" data-ForumId="118"> 2BHK flat for Rental in Reliance Paradise</div>
-              <div style="float:right;margin-right:2%;width:48%;text-align:right"> 27-Sep-2015 04:02 PM </div>
-       
-             </div>
-              <div class="DashboardItemBodyEndLine">
-                  <div style="float:left;width:50%" title="What action should we take against such elements who have entered in our society" class="DashboardItemBodyLink ForumDetails" data-ForumId="110">                 <span>What action should we take against such elements who have en.. </span>
-</div>
-              <div style="float:right;margin-right:2%;width:48%;text-align:right"> 30-Aug-2015 08:01 AM </div>
-       
-             </div>
-              <div class="DashboardItemBodyEndLine">
-                  <div style="float:left;width:50%" title="3BHK Apartment for Rent" class="DashboardItemBodyLink ForumDetails" data-ForumId="76"> 3BHK Apartment for Rent</div>
-              <div style="float:right;margin-right:2%;width:48%;text-align:right"> 20-Jun-2015 07:48 PM </div>
-       
-             </div>
-              <div class="DashboardItemBodyEndLine">
-                  <div style="float:left;width:50%" title="Flat For Sale - E 704 " class="DashboardItemBodyLink ForumDetails" data-ForumId="51"> Flat For Sale - E 704 </div>
-              <div style="float:right;margin-right:2%;width:48%;text-align:right"> 18-May-2015 10:51 AM </div>
-       
-             </div>
-              <div class="DashboardItemBodyEndLine">
-                  <div style="float:left;width:50%" title="Nanny required for 3 year kid" class="DashboardItemBodyLink ForumDetails" data-ForumId="35"> Nanny required for 3 year kid</div>
-              <div style="float:right;margin-right:2%;width:48%;text-align:right"> 04-Apr-2015 09:08 AM </div>
-       
-             </div>
- 
-    </div>
-
-<script type="text/javascript">
-    $('#btnViewAllForum').on("click", function ()
-    {
-        location.href = '/Forum/Index';
-    });
-    $('#btnCreateForum').on("click", function () {
-        location.href = '/Forum/CreateForum';
-    });
-    $('.ForumDetails').on("click", function () {
-    var query = '?ForumId=' + $($(this)).attr("data-ForumId");
-    var url = '/Forum/ForumDetails' + query;
-        window.location.href = url;
-    });
-</script>
-
-
-
-</div>
-
-
-<div class="Special" style="text-align: center; color: #fff;">
-
-    <a href="http://www.ugethelp.com/Home/ContactUs" target="_blank">
-        <img src="images/Ad_in_uGetHelp.png" style="width: 100%; height: 30%; margin-top: 0.6px;" alt="djgd" />
-    </a>
-    
-</div>
-
 
         </div>
         <!--Right Wizards End-->
